@@ -38,7 +38,7 @@
     </style>
 </head>
 
-<body>
+<body onload="listar()">
 
     <!--side bar-->
     <div class="container">
@@ -108,7 +108,7 @@
                         <div class="work">
                             <h3><i class="fa fa-briefcase"><a href="#atualizar_dados"></i>Dados Pessoais</h3></a>
                             <ul style="margin-top: 20px;">
-                                <li><span>Nome</span><small>Winycios alves</small></li>
+                                <li><span>Nome</span><small id="nome_user"></small></li>
                                 <li><span>Email</span><small>winycebas@gmail.com</small></li>
                                 <li><span>CPF</span><small>123.456.789-31</small></li>
                             </ul>
@@ -201,3 +201,30 @@
 </body>
 
 </html>
+<script>
+
+    function listar() {
+
+        //aguardar();
+        fetch("/dadosUsuario/listar").then(function (resposta) {
+            if (resposta.ok) {
+                if (resposta.status == 204) {
+                    console.log(JSON.stringify(resposta))
+                }
+                resposta.json().then(function (resposta) {
+                    // console.log("Dados recebidos: ", JSON.stringify(resposta));
+                   var infoUsuario = JSON.stringify(resposta);
+                    console.log(  infoUsuario.length)
+                    var a  = JSON.parse(infoUsuario)
+                    console.log(  a[0].id)
+                });
+            } else {
+                throw ('Houve um erro na API!');
+            }
+        }).catch(function (resposta) {
+            console.error(resposta);
+        });
+    }
+
+
+</script>
